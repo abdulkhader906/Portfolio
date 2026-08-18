@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avelion | Linguistics & Evolution Hub</title>
+    <style>
+        /* --- Violet Theme Colors --- */
+        :root {
+            --primary-violet: #4a148c; /* Deep Violet */
+            --secondary-violet: #7c43bd; /* Medium Violet */
+            --light-violet: #f3e5f5; /* Very Light Violet for background */
+            --accent-color: #ffb300; /* Gold/Yellow accent for contrast */
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --transition: all 0.3s ease;
+        }
+
+        /* --- Basic Reset & Typography --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light-violet);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header / Navigation --- */
+        header {
+            background-color: var(--primary-violet);
+            color: var(--text-light);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        header h1 span {
+            color: var(--accent-color);
+        }
+
+        /* Navigation Links */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            bottom: -5px;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hamburger Menu Icon (Hidden on Desktop) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background-color: var(--text-light);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, rgba(74, 20, 140, 0.9), rgba(124, 67, 189, 0.9)), url('https://source.unsplash.com/random/1920x1080/?library,books') center/cover;
+            color: var(--text-light);
+            padding: 10rem 5% 7rem 5%;
+            text-align: center;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Typing Effect Element */
+        .typewriter {
+            color: var(--accent-color);
+            border-right: 3px solid var(--accent-color);
+            padding-right: 5px;
+            animation: blink 0.75s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-color); }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem auto;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-violet);
+            padding: 12px 35px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            background-color: #ffa000;
+            box-shadow: 0 6px 20px rgba(255, 179, 0, 0.5);
+        }
+
+        /* --- Content Sections --- */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            padding: 5rem 5%;
+            flex-wrap: wrap;
+        }
+
+        /* Scroll Reveal Initial State */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        /* Scroll Reveal Active State */
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-top: 5px solid var(--secondary-violet);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        /* Decorative circle behind card title */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: var(--light-violet);
+            border-radius: 50%;
+            z-index: 0;
+            transition: var(--transition);
+        }
+
+        .card:hover::before {
+            transform: scale(1.5);
+        }
+
+        .card h3 {
+            color: var(--primary-violet);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card p {
+            position: relative;
+            z-index: 1;
+            color: #555;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--primary-violet);
+            color: var(--text-light);
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 5%;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            nav ul {
+                position: absolute;
+                top: 100%;
+                left: -100%; /* Hidden by default */
+                flex-direction: column;
+                background-color: var(--primary-violet);
+                width: 100%;
+                text-align: center;
+                gap: 0;
+                transition: 0.4s ease-in-out;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+            }
+
+            nav ul.active {
+                left: 0; /* Slide in */
+            }
+
+            nav ul li {
+                margin: 0;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 20px;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            /* Hamburger Animation to 'X' */
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .hero {
+                padding-top: 8rem;
+                min-height: 60vh;
+            }
+
+            .features {
+                padding: 3rem 5%;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Avel<span>ion</span></h1>
+        
+        <!-- Hamburger Menu Icon -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav>
+            <ul id="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Origins</a></li>
+                <li><a href="#">Discussions</a></li>
+                <li><a href="#">Essays</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>The <span class="typewriter" id="typewriter"></span> <br> of Language</h2>
+        <p>Welcome to Avelion, a specialized hub exploring the profound origins, historical shifts, and intricate structure of human language.</p>
+        <a href="#features" class="btn">Explore Topics</a>
+    </section>
+
+    <!-- Features/Topics Section -->
+    <section class="features" id="features">
+        <div class="card reveal">
+            <h3>Linguistic Themes</h3>
+            <p>Dive deep into specific linguistic concepts, phonetics, syntax, and how languages shape our society.</p>
+        </div>
+        <div class="card reveal">
+            <h3>The Core Concept</h3>
+            <p>Join our discussions around unique linguistic phenomena and trace the roots of ancient communication.</p>
+        </div>
+        <div class="card reveal">
+            <h3>Deep-Dive Essays</h3>
+            <p>Read comprehensive articles and thought pieces written for linguistics enthusiasts and researchers.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Avelion: Linguistics & Evolution Hub. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript code -->
+    <script>
+        // 1. Mobile Menu Toggle Script
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#nav-links li a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // 2. Typing Effect Script
+        const words = ["Evolution", "പരിണാമം", "History"];
+        let i = 0;
+        let timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typewriter').innerHTML += word.shift();
+                } else {
+                    deletingEffect();
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 150);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typewriter').innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                    typingEffect();
+                    return false;
+                }
+                timer = setTimeout(loopDeleting, 100);
+            };
+            // Wait before starting to delete
+            setTimeout(loopDeleting, 2000);
+        }
+        
+        // Start typing effect on load
+        window.onload = typingEffect;
+
+        // 3. Scroll Reveal Animation Script
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // when element is 100px visible, animate
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        // Listen to scroll events
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load to show visible elements
+        reveal();
+    </script>
+</body>
+</html>
